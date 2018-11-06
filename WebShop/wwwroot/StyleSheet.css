@@ -103,6 +103,20 @@ h2 + p::first-letter {
     font-family: Mirabelle, sans-serif, Verdana;
 }
 
+button {
+    height: 50px;
+    width: 150px;
+    font-size: 1.5em;
+}
+
+    button:hover {
+        border: thin solid;
+    }
+
+    button:active {
+        color: green;
+    }
+
 footer {
     background-color: #F7CC21;
     height: 100px;
