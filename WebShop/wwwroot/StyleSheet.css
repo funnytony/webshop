@@ -1,0 +1,130 @@
+﻿
+
+@font-face {
+    font-family: "Lobster";
+    src: url("../fonts/Lobster.ttf");
+}
+
+@font-face {
+    font-family: "Mirabelle";
+    src: url("../fonts/Mirabelle.ttf");
+}
+
+
+html, body {
+    width: 100%;
+    height: 100%;    
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    font-family: Lobster, sans-serif, Verdana;
+    background: linear-gradient(to left, #FFFF76, #FFFFFF);
+    width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-image: url(Images/background.png);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+header img {
+    padding-left: 20px;
+    height: 100px;
+}
+
+.menu {
+    list-style-type: none;
+    float: right;
+}
+
+.menu li {
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+li a {
+    color: #8B00FF;
+    text-decoration: none;
+}
+
+li:hover a {
+    color: #000000;
+}
+.headerlist li a {
+    font: 20px italic;
+    display: inline;
+}
+
+.catalog {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.catalog:after {
+    content: '';
+    flex: 1 1 100%;
+    margin-bottom: 34px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.item:hover {
+    box-shadow: 0 0 5px 2px;
+}
+
+h2 {
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    background: linear-gradient(to bottom left, #FFFFFF, #FFE773);
+    overflow: hidden;
+}
+
+h2 + p {
+    color: #484343;
+    font-size: 18px;
+}
+
+h2 + p::first-letter {
+    color: red;
+    font-family: Mirabelle, sans-serif, Verdana;
+}
+
+button {
+    height: 50px;
+    width: 150px;
+    font-size: 1.5em;
+}
+
+    button:hover {
+        border: thin solid;
+    }
+
+    button:active {
+        color: green;
+    }
+
+footer {
+    background-color: #F7CC21;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 10px;
+    margin-top: 10px;
+}
+
+
