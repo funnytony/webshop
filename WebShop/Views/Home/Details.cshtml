@@ -1,10 +1,10 @@
-﻿
+﻿@model Product
 @{
     Layout = "_LayoutSidebar";
     ViewBag.Title = "Product Details";
 }
 
-@await Html.PartialAsync("Partial/_ProductDetails")
+@await Html.PartialAsync("Partial/_ProductDetails", Model)
 
 @await Html.PartialAsync("Partial/_CategoryTabDetails")
 

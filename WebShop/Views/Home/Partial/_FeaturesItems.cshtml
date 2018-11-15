@@ -12,15 +12,19 @@
                         <h2>$@product.Price</h2>
                         <p>@product.Name</p>
                         <a asp-controller="Home" asp-action="AddToCart" asp-route-id="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
+                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
                     </div>
                     <div class="product-overlay">
                         <div class="overlay-content">
                             <h2>$@product.Price</h2>
                             <p>@product.Name</p>
                             <a asp-controller="Home" asp-action="AddToCart" asp-route-id="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
+                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
                         </div>
                     </div>
-                    @if(product.New||product.Sale)
+                    @if (product.New || product.Sale)
                     {
                         <img src="@(product.New?"/images/home/new.png":"/images/home/sale.png")" class="new" alt="" />
                     }
@@ -34,7 +38,8 @@
             </div>
         </div>
 
-    }    
+    }
+    <a asp-action="Edite" class="btn btn-success">Добавить</a>
     @section nav{
         @await RenderSectionAsync("nav", false)
     }

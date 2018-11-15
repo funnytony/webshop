@@ -11,7 +11,7 @@ namespace WebShop.Models
     {
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Cart> Carts { get; set; }
+        //public DbSet<Cart> Carts { get; set; }
         
         public ProductContext(DbContextOptions<ProductContext> options) : base(options)
         {

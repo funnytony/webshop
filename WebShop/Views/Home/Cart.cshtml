@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Cart>
-@{
+﻿@{
     ViewBag.Title = "Cart";
     ViewBag.Checkout = false;
 }
@@ -12,7 +11,7 @@
                 <li class="active">Shopping Cart</li>
             </ol>
         </div>
-      @await Html.PartialAsync("Partial/_CartItems", Model)
+      @await Html.PartialAsync("Partial/_CartItems")
      
     </div>
 </section> <!--/#cart_items-->

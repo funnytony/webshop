@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebShop.Infrastructure.Implementations;
+using WebShop.Infrastructure.Interfaces;
 using WebShop.Models;
 
 namespace WebShop
@@ -24,6 +26,7 @@ namespace WebShop
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ProductContext>(options => options.UseSqlServer(connection));
             services.AddMvc();
+            services.AddScoped<IProductData, ProductData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Cart>
-@{
+﻿@{
     ViewBag.Title = "Checkout";
     ViewBag.Checkout = true;
 }
@@ -24,7 +23,7 @@
             <h2>Review & Payment</h2>
         </div>
 
-        @await Html.PartialAsync("Partial/_CartItems",Model)
+        @await Html.PartialAsync("Partial/_CartItems")
         <div class="payment-options">
             <span>
                 <label><input type="checkbox"> Direct Bank Transfer</label>
