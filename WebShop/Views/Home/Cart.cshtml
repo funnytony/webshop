@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Cart";
+    ViewBag.Checkout = false;
+}
+
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Shopping Cart</li>
+            </ol>
+        </div>
+      @await Html.PartialAsync("Partial/_CartItems")
+     
+    </div>
+</section> <!--/#cart_items-->
+
+@await Html.PartialAsync("Partial/_DoActionCart")

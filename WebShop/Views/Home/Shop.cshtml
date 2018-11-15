@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Product>
+@{
+    Layout = "_LayoutSidebar";
+    ViewBag.Title = "Shop";
+}
+
+@section top{
+    @await Html.PartialAsync("Partial/_Advertisement")
+
+}
+
+@await Html.PartialAsync("Partial/_FeaturesItems", Model)
+
+@section nav{
+    @await Html.PartialAsync("Partial/_Pagination")
+}

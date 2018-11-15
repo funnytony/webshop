@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Product>
+@{
+    Layout = "_LayoutSidebar";
+    ViewBag.Title = "Index";
+}
+
+@section top{
+    @await Html.PartialAsync("Partial/_Slider")
+
+}
+
+
+
+
+
+@await Html.PartialAsync("Partial/_FeaturesItems", Model)
+
+@await Html.PartialAsync("Partial/_CategoryTab")
+
+@await Html.PartialAsync("Partial/_RecommendedItems")
+

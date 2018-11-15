@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebShop.Models.Product>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width" />
+    <title>Торты, капкейки, пряники</title>
+    <link href="~/Images/ico.png" rel="icon" />
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="~/Images/ico.png" alt="logo">
+
+            <ul class="menu">
+                <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
+                <li><a asp-controller="Home" asp-action="Catalog">Каталог</a></li>
+            </ul>
+        </header>
+
+        <h1>Каталог</h1>
+        <div class="catalog">
+            @foreach (var item in Model)
+            {
+                <div class="item">
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id"><img src="" alt=@item.Name title=@item.Name></a>
+                    <br />
+                    @item.Description
+                    <br />
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
+                </div>
+
+            }
+        </div>
+
+        <footer>
+            &copy; <i>Все права защищены</i>
+        </footer>
+    </div>
+</body>
+</html>
