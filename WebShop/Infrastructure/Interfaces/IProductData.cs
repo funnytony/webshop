@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebShop.Domain.Entities;
 using WebShop.Models;
 
 namespace WebShop.Infrastructure.Interfaces
@@ -17,5 +18,11 @@ namespace WebShop.Infrastructure.Interfaces
         void Delete(int id);
 
         void Update(Product model);
+
+        IEnumerable<Section> GetSections();
+
+        IEnumerable<Event> GetEvents();
+
+        IEnumerable<Product> GetProducts(ProductFilter filter);
     }
 }

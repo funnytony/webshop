@@ -22,7 +22,10 @@ namespace WebShop
                         Price = 20,
                         Sale = false,
                         New = false,
-                        Image = "tort.jpg"
+                        ImageUrl = "tort.jpg",
+                        Order = 1,
+                        SectionId = 2,
+                        EventId = 1
                     },
                     new Product
                     {
@@ -33,7 +36,10 @@ namespace WebShop
                         Price = 30,
                         Sale = true,
                         New = false,
-                        Image = "pryaniki.jpg"
+                        ImageUrl = "pryaniki.jpg",
+                        Order = 1,
+                        SectionId = 6,
+                        EventId = 0
                     },
                     new Product
                     {
@@ -44,7 +50,10 @@ namespace WebShop
                         Price = 40,
                         Sale = false,
                         New = true,
-                        Image = "cupcake.jpg"
+                        ImageUrl = "cupcake.jpg",
+                        Order = 1,
+                        SectionId = 5,
+                        EventId = 0
                     }
                     );
                 context.SaveChanges();

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model CatalogViewModel
 @{
     Layout = "_LayoutSidebar";
     ViewBag.Title = "Shop";
@@ -9,7 +9,7 @@
 
 }
 
-@await Html.PartialAsync("Partial/_FeaturesItems", Model)
+@await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
 
 @section nav{
     @await Html.PartialAsync("Partial/_Pagination")
