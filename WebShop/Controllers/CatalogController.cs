@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Interfaces;
 using WebShop.Models;
 

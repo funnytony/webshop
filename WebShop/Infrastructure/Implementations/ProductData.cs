@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebShop.DAL.Context;
 using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Interfaces;
 using WebShop.Models;
@@ -10,7 +11,7 @@ namespace WebShop.Infrastructure.Implementations
 {
     public class ProductData : IProductData
     {
-        ProductContext _db;
+        WebShopContext _db;
 
         private readonly List<Section> _sections = new List<Section>{
             new Section()
@@ -83,7 +84,7 @@ namespace WebShop.Infrastructure.Implementations
             }
         };
 
-        public ProductData(ProductContext context) => _db = context;
+        public ProductData(WebShopContext context) => _db = context;
 
         public void AddNew(Product model)
         {
@@ -120,6 +121,11 @@ namespace WebShop.Infrastructure.Implementations
             if (filter.SectionId.HasValue) products = products.Where(p => p.SectionId.Equals(filter.SectionId)).ToList();
             if (filter.EventId.HasValue) products = products.Where(p =>p.EventId.HasValue && p.EventId.Equals(filter.EventId)).ToList();
             return products;
+        }
+
+        public int GetEventProductCount(int eventId)
+        {
+            return _db.Products.Count(p => p.EventId.HasValue && p.EventId == eventId);
         }
     }
 }

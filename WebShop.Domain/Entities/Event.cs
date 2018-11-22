@@ -7,5 +7,6 @@ namespace WebShop.Domain.Entities
 {
     public class Event: OrderedEntity
     {
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

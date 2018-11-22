@@ -27,7 +27,7 @@ namespace WebShop.ViewComponents
                 Id = e.Id,
                 Name = e.Name,
                 Order = e.Order,
-                ProductsCount = 0
+                ProductsCount = _productData.GetEventProductCount(e.Id)
             }).OrderBy(e=>e.Order).ToList();
         }
     }

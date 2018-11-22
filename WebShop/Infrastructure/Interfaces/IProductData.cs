@@ -24,5 +24,7 @@ namespace WebShop.Infrastructure.Interfaces
         IEnumerable<Event> GetEvents();
 
         IEnumerable<Product> GetProducts(ProductFilter filter);
+
+        int GetEventProductCount(int eventId);
     }
 }
