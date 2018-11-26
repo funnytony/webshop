@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using WebShop.Domain.Entities;
 
 namespace WebShop.DAL.Context
 {
-    public class WebShopContext: DbContext
+    public class WebShopContext: IdentityDbContext<User>
     {
         public WebShopContext(DbContextOptions options) : base(options)
         {

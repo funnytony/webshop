@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Interfaces;
@@ -64,25 +65,41 @@ namespace WebShop.Controllers
                 Order = porduct.Order
             });
         }
-
+        [Authorize]
+        [HttpGet]
         public IActionResult Edite(int? id)
         {
             Product product;
+            ProductViewModel model;
             if (id.HasValue)
             {
                 product = _productData.GetById(id.Value);
                 if (ReferenceEquals(product, null)) return NotFound();
+                model = new ProductViewModel()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    FullDescription = product.FullDescription,
+                    Appearance = product.Appearance,
+                    ImageUrl = product.ImageUrl,
+                    New = product.New,
+                    Sale = product.Sale,
+                    Price = product.Price,
+                    Order = product.Order
+                };
             }
             else
             {
-                product = new Product();
+                model = new ProductViewModel();
             }
-            return View(product);
+            return View(model);
 
         }
 
+        [Authorize]
         [HttpPost]
-        public IActionResult Edite(Product product)
+        public IActionResult Edite(ProductViewModel product)
         {
             if (ModelState.IsValid)
             {
@@ -98,17 +115,31 @@ namespace WebShop.Controllers
                     dbItem.FullDescription = product.FullDescription;
                     dbItem.Description = product.Description;
                     dbItem.Appearance = product.Appearance;
+                    dbItem.SectionId = product.SectionId;
+                    dbItem.EventId = product.EventId;
                     _productData.Update(dbItem);
                 }
                 else
                 {
-                    _productData.AddNew(product);
+                    Product dbItem = new Product()
+                    {
+                        Name = product.Name,
+                        Description = product.Description,
+                        FullDescription = product.FullDescription,
+                        Appearance = product.Appearance,
+                        ImageUrl = product.ImageUrl,
+                        Price = product.Price,
+                        New = true,
+                        Sale = false
+                    };
+                    _productData.AddNew(dbItem);
                 }
                 return RedirectToAction(nameof(Shop));
             }
             return View(product);
         }
 
+        [Authorize]
         public IActionResult Delete(int id)
         {
             _productData.Delete(id);

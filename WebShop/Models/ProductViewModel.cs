@@ -21,5 +21,9 @@ namespace WebShop.Models
         public bool New { get; set; }//новые поступления
 
         public string ImageUrl { get; set; }//изображение
+
+        public int? SectionId { get; set; }
+
+        public int? EventId { get; set; }
     }
 }
