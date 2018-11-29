@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebShop.Domain;
 using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Interfaces;
 using WebShop.Models;
@@ -39,7 +40,8 @@ namespace WebShop.Controllers
                     New = p.New,
                     Sale = p.Sale,
                     ImageUrl = p.ImageUrl,
-                    Order = p.Order
+                    Order = p.Order,
+                    Event = p.Event != null ? p.Event.Name : string.Empty
                 }).OrderBy(p => p.Order).ToList()
             };
             return View(model);
@@ -62,10 +64,11 @@ namespace WebShop.Controllers
                 New = porduct.New,
                 Sale = porduct.Sale,
                 ImageUrl = porduct.ImageUrl,
-                Order = porduct.Order
+                Order = porduct.Order,
+                Event = porduct.Event != null? porduct.Event.Name : string.Empty
             });
         }
-        [Authorize]
+        [Authorize(Roles = WebShopConstants.Roles.Admin)]
         [HttpGet]
         public IActionResult Edite(int? id)
         {
@@ -97,7 +100,7 @@ namespace WebShop.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = WebShopConstants.Roles.Admin)]
         [HttpPost]
         public IActionResult Edite(ProductViewModel product)
         {
@@ -139,7 +142,7 @@ namespace WebShop.Controllers
             return View(product);
         }
 
-        [Authorize]
+        [Authorize(Roles = WebShopConstants.Roles.Admin)]
         public IActionResult Delete(int id)
         {
             _productData.Delete(id);

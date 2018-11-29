@@ -10,11 +10,20 @@
     <title>@ViewBag.Title | E-Shopper</title>
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/css/prettyPhoto.css" rel="stylesheet">
-    <link href="~/css/price-range.css" rel="stylesheet">
-    <link href="~/css/animate.css" rel="stylesheet">
-    <link href="~/css/main.css" rel="stylesheet">
-    <link href="~/css/responsive.css" rel="stylesheet">
+
+    <environment include="Development">
+        <link href="~/css/prettyPhoto.css" rel="stylesheet">
+        <link href="~/css/price-range.css" rel="stylesheet">
+        <link href="~/css/animate.css" rel="stylesheet">
+        <link href="~/css/main.css" rel="stylesheet">
+        <link href="~/css/responsive.css" rel="stylesheet">
+    </environment>
+
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    
+    <link href="~/css/typography.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="~/js/html5shiv.js"></script>
     <script src="~/js/respond.min.js"></script>
@@ -37,11 +46,20 @@
 
     @await Html.PartialAsync("Partial/_Footer")
 
-    <script src="~/js/jquery.js"></script>
+    <script src="~/js//jquery.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.scrollUp.min.js"></script>
-    <script src="~/js/price-range.js"></script>
-    <script src="~/js/jquery.prettyPhoto.js"></script>
-    <script src="~/js/main.js"></script>
+
+
+    <environment include="Development">
+        <script src="~/js/price-range.js"></script>
+        <script src="~/js/jquery.prettyPhoto.js"></script>
+        <script src="~/js/main.js"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
 </body>
 </html>

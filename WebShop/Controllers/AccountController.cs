@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebShop.Domain;
 using WebShop.Domain.Entities;
 using WebShop.Models.Account;
 using WebShop.Services.Interfaces;
@@ -42,6 +43,7 @@ namespace WebShop.Controllers
                 if (createResult.Succeeded)
                 {
                     //await _signInManager.SignInAsync(user, false);
+                    await _userManager.AddToRoleAsync(user, WebShopConstants.Roles.User);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",

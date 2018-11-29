@@ -46,20 +46,23 @@
             <p>Web ID: 1089772</p>
             <img src="~/images/product-details/rating.png" alt="" />
             <span>
-                <span>US $@Model.Price</span>
+                <span>@Model.Price.ToString("C")</span>
                 <label>Quantity:</label>
                 <input type="text" value="3" />
-                <button type="button" class="btn btn-fefault cart">
+                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-fefault cart">
                     <i class="fa fa-shopping-cart"></i>
                     Add to cart
-                </button>
-                <a asp-action="Edite" asp-controller="Catalog" asp-route-id="@Model.Id" class="btn btn-fefault cart">                    
-                    Edite
                 </a>
+                @if (User.IsInRole(WebShopConstants.Roles.Admin))
+                { 
+                    <a asp-action="Edite" asp-controller="Catalog" asp-route-id="@Model.Id" class="btn btn-fefault cart">
+                        Edite
+                    </a>
+                }
             </span>
             <p><b>Availability:</b> In Stock</p>
             <p><b>Condition:</b> New</p>
-            <p><b>Brand:</b> E-SHOPPER</p>
+            <p><b>Event:</b>@Model.Event</p>
             <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
         </div><!--/product-information-->
     </div>

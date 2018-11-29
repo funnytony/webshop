@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace WebShop.Infrastructure.Sql
         public IEnumerable<Product> GetAll() => _context.Products.ToList();
         
 
-        public Product GetById(int id) => _context.Products.FirstOrDefault(p => p.Id == id);        
+        public Product GetById(int id) => _context.Products.Include(p=>p.Event).Include(p=>p.Section).FirstOrDefault(p => p.Id == id);        
 
         public int GetEventProductCount(int eventId) => _context.Products.Count(p => p.EventId.HasValue && p.EventId == eventId);        
 
@@ -39,7 +40,7 @@ namespace WebShop.Infrastructure.Sql
 
         public IEnumerable<Product> GetProducts(ProductFilter filter)
         {
-            var products = _context.Products.AsQueryable();
+            var products = _context.Products.Include("Event").Include(p=>p.Section).AsQueryable();
             if (filter.SectionId.HasValue) products = products.Where(p => p.SectionId.Equals(filter.SectionId));
             if (filter.EventId.HasValue) products = products.Where(p => p.EventId.HasValue && p.EventId.Equals(filter.EventId));
             return products.ToList();

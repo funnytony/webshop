@@ -11,17 +11,24 @@
                         <img src="@($"/images/products/small/{product.ImageUrl}")" alt=@product.Name />
                         <h2>$@product.Price</h2>
                         <p>@product.Name</p>
-                        <a asp-controller="Home" asp-action="AddToCart" asp-route-id="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                         <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
-                        <a asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
+                        @if (User.IsInRole(WebShopConstants.Roles.Admin))
+                        {
+                            <a asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
+                        }
+
                     </div>
                     <div class="product-overlay">
                         <div class="overlay-content">
                             <h2>$@product.Price</h2>
                             <p>@product.Name</p>
-                            <a asp-controller="Home" asp-action="AddToCart" asp-route-id="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                             <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
-                            <a asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
+                            @if (User.IsInRole(WebShopConstants.Roles.Admin))
+                            {
+                                <a asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
+                            }
                         </div>
                     </div>
                     @if (product.New || product.Sale)
@@ -39,7 +46,10 @@
         </div>
 
     }
-    <a asp-action="Edite" asp-controller="Catalog" class="btn btn-success">Добавить</a>
+    @if (User.IsInRole(WebShopConstants.Roles.Admin))
+    {
+        <a asp-action="Edite" asp-controller="Catalog" class="btn btn-success">Добавить</a>
+    }
     @section nav{
         @await RenderSectionAsync("nav", false)
     }

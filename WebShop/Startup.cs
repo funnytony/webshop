@@ -64,10 +64,13 @@ namespace WebShop
                 options.SlidingExpiration = true;
             });
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
-            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<ICartService, CookieCartService>();
+
+
 
             services.AddMvc();
 

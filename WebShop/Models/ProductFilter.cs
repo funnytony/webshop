@@ -10,5 +10,7 @@ namespace WebShop.Models
         public int? SectionId { get; set; }
 
         public int? EventId { get; set; }
+
+        public List<int> Ids { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace WebShop.Services
 {
     public class EmailSender : IEmailSender
     {
-        public AuthMessageSenderOptions Options { get; }
+        private AuthMessageSenderOptions Options { get; }
 
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
         {
@@ -22,7 +22,7 @@ namespace WebShop.Services
             return Execute(Options.SendGridKey, subject, htmlMessage, email);
         }
 
-        public Task Execute(string apiKey, string subject, string message, string email)
+        private Task Execute(string apiKey, string subject, string message, string email)
         {
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()

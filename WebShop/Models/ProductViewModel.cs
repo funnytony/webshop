@@ -25,5 +25,7 @@ namespace WebShop.Models
         public int? SectionId { get; set; }
 
         public int? EventId { get; set; }
+
+        public string Event { get; set; }
     }
 }
