@@ -20,5 +20,9 @@ namespace WebShop.DAL.Context
         public DbSet<Section> Sections { get; set; }
 
         public DbSet<Event> Events { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
     }
 }

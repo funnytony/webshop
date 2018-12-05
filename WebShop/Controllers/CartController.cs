@@ -4,26 +4,48 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebShop.Infrastructure.Interfaces;
+using WebShop.Models.Order;
 
 namespace WebShop.Controllers
 {
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private readonly IOrderService _orderService;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService, IOrderService orderService)
         {
             _cartService = cartService;
+            _orderService = orderService;
         }
 
         public IActionResult Details()
         {
-            return View("Details", _cartService.TransformCart());
+            var model = new DetailsViewModel()
+            {
+                CartViewModel = _cartService.TransformCart(),
+                OrderViewModel = new OrderViewModel()                
+            };
+            return View("Details", model);
         }
 
-        public IActionResult Checkout()
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Checkout(OrderViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var orderResult = _orderService.CreateOrder(model, _cartService.TransformCart(), User.Identity.Name);
+                _cartService.RemoveAll();
+                return RedirectToAction("OrderConfirmed", new { id = orderResult.Id });
+            }
+
+            var detailsModel = new DetailsViewModel()
+            {
+                CartViewModel = _cartService.TransformCart(),
+                OrderViewModel = model
+            };
+            return View("Details", detailsModel);
+            
         }
 
         public IActionResult DecrementFromCart(int id)
@@ -52,6 +74,12 @@ namespace WebShop.Controllers
                 return Redirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult OrderConfirmed(int id)
+        {
+            ViewBag.OrderId = id;
+            return View();
         }
 
     }

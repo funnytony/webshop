@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\Catalog.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\StyleSheet.css" />
   </ItemGroup>
 
@@ -19,6 +23,11 @@
   <ItemGroup>
     <ProjectReference Include="..\WebShop.DAL\WebShop.DAL.csproj" />
     <ProjectReference Include="..\WebShop.Domain\WebShop.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
 </Project>

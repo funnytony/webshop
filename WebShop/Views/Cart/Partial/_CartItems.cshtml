@@ -12,62 +12,63 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in Model.Items)
+
+            @foreach (var item in Model.Items)
             {
-            <tr>
-                <td class="cart_product">
-                    <a href=""><img src="~/images/products/small//@item.Key.ImageUrl" alt=""></a>
-                </td>
-                <td class="cart_description">
-                    <h4><a asp-action="Details" asp-controller="Catalog" asp-route-id="@item.Key.Id">@item.Key.Name</a></h4>
-                    <p>Web ID: 1089772</p>
-                </td>
-                <td class="cart_price">
-                    <p>@(item.Key.Price.ToString("C"))</p>
-                </td>
-                <td class="cart_quantity">
-                    <div class="cart_quantity_button">
-                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Key.Id" asp-route-returnUrl="@Context.Request.Path" class="cart_quantity_up"> + </a>
-                        <input class="cart_quantity_input" type="text" name="quantity" value="@item.Value" autocomplete="off" size="2">
-                        <a asp-controller="Cart" asp-action="DecrementFromCart" asp-route-id="@item.Key.Id" class="cart_quantity_down"> - </a>
-                    </div>
-                </td>
-                <td class="cart_total">
-                    <p class="cart_total_price">@((item.Value * item.Key.Price).ToString("C"))</p>
-                </td>
-                <td class="cart_delete">
-                    <a class="cart_quantity_delete" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Key.Id"><i class="fa fa-times"></i></a>
-                </td>
-            </tr>
+
+                <tr>
+                    <td class="cart_product">
+                        <a href=""><img src="~/images/products/small//@item.Key.ImageUrl" alt=""></a>
+                    </td>
+                    <td class="cart_description">
+                        <h4><a asp-action="Details" asp-controller="Catalog" asp-route-id="@item.Key.Id">@item.Key.Name</a></h4>
+                        <p>Web ID: 1089772</p>
+                    </td>
+                    <td class="cart_price">
+                        <p>@(item.Key.Price.ToString("C"))</p>
+                    </td>
+                    <td class="cart_quantity">
+                        <div class="cart_quantity_button">
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Key.Id" asp-route-returnUrl="@Context.Request.Path" class="cart_quantity_up"> + </a>
+                            <input class="cart_quantity_input" type="text" name="quantity" value="@item.Value" autocomplete="off" size="2">
+                            <a asp-controller="Cart" asp-action="DecrementFromCart" asp-route-id="@item.Key.Id" class="cart_quantity_down"> - </a>
+                        </div>
+                    </td>
+                    <td class="cart_total">
+                        <p class="cart_total_price">@((item.Value * item.Key.Price).ToString("C"))</p>
+                    </td>
+                    <td class="cart_delete">
+                        <a class="cart_quantity_delete" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Key.Id"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+            }
+            @{
+                ViewData.TryGetValue("sumCart", out var sumObj);
             }
 
-   
-            @if(@ViewBag.Checkout == true)
-        {
-            <tr>
-                <td colspan="4">&nbsp;</td>
-                <td colspan="2">
-                    <table class="table table-condensed total-result">
-                        <tr>
-                            <td>Cart Sub Total</td>
-                            <td>$59</td>
-                        </tr>
-                        <tr>
-                            <td>Exo Tax</td>
-                            <td>$2</td>
-                        </tr>
-                        <tr class="shipping-cost">
-                            <td>Shipping Cost</td>
-                            <td>Free</td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td><span>$61</span></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        }
+            @if ((@ViewBag.Checkout == true)&& (sumObj != null))
+            {
+                var sum = (decimal)sumObj;
+                <tr>
+                    <td colspan="4">&nbsp;</td>
+                    <td colspan="2">
+                        <table class="table table-condensed total-result">
+                            <tr>
+                                <td>Cart Sub Total</td>
+                                <td>@sum.ToString("C")</td>
+                            </tr>
+                            <tr class="shipping-cost">
+                                <td>Shipping Cost</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>@sum.ToString("C")</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

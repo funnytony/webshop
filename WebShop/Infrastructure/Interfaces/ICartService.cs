@@ -10,7 +10,7 @@ namespace WebShop.Infrastructure.Interfaces
 
         void RemoveAll();
 
-        void AddToCart(int id);
+        void AddToCart(int id);        
 
         CartViewModel TransformCart();
     }

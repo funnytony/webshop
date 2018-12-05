@@ -69,6 +69,7 @@ namespace WebShop
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICartService, CookieCartService>();
+            services.AddTransient<IOrderService, SqlOrderService>();
 
 
 
@@ -95,6 +96,11 @@ namespace WebShop
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                   name: "areas",
+                   template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                 );
+
                 routes.MapRoute(
                     name: "defoult",
                     template: "{controller=Home}/{action=Index}/{id?}"
