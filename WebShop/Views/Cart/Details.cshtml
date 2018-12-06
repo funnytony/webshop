@@ -1,0 +1,29 @@
+﻿@model DetailsViewModel
+@{
+    ViewBag.Title = "Cart";
+    ViewBag.Checkout = false;
+}
+
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Shopping Cart</li>
+            </ol>
+        </div>
+        @{
+            var sumCart = 0m;
+        }
+        @foreach (var item in Model.CartViewModel.Items)
+        {
+            sumCart += (item.Value * item.Key.Price);
+
+        }
+        @await Html.PartialAsync("Partial/_CartItems", Model.CartViewModel, new ViewDataDictionary(ViewData) { { "sumCart", sumCart } })
+
+
+    </div>
+</section> <!--/#cart_items-->
+
+@await Html.PartialAsync("Partial/_DoActionCart", Model.OrderViewModel, new ViewDataDictionary(ViewData) { { "sumCart", sumCart } })
