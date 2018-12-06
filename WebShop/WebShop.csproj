@@ -21,8 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebShop.Clients\WebShop.Clients.csproj" />
     <ProjectReference Include="..\WebShop.DAL\WebShop.DAL.csproj" />
     <ProjectReference Include="..\WebShop.Domain\WebShop.Domain.csproj" />
+    <ProjectReference Include="..\WebShop.Interfaces\WebShop.Interfaces.csproj" />
+    <ProjectReference Include="..\WebShop.Services\WebShop.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

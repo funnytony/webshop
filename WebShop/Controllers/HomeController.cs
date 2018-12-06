@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebShop.Infrastructure.Interfaces;
+using WebShop.Interfaces.Clients;
 using WebShop.Models;
 
 namespace WebShop.Controllers
@@ -12,13 +13,21 @@ namespace WebShop.Controllers
     {
         private readonly IProductData _productData;
 
-        public HomeController(IProductData productData) => _productData = productData;
+        private readonly IValuesService _valuesService;
+
+        public HomeController(IProductData productData, IValuesService valuesService)
+        {
+            _productData = productData;
+            _valuesService = valuesService;
+        }
            
 
         
 
         public IActionResult Index()
         {
+            var value = _valuesService.Get();
+            ViewBag.Service = value;
             var products = _productData.GetAll().Select(p => new ProductViewModel() {
                 Id = p.Id,
                 Name = p.Name,

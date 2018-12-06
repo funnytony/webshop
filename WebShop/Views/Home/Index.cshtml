@@ -10,7 +10,11 @@
 }
 
 
+@foreach(var item in ViewBag.Service)
+{
+    <p>@item</p>
 
+}
 
 
 @await Html.PartialAsync("Partial/_FeaturesItems", Model)

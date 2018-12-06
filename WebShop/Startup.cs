@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebShop.Clients;
 using WebShop.DAL.Context;
 using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Implementations;
 using WebShop.Infrastructure.Interfaces;
 using WebShop.Infrastructure.Sql;
+using WebShop.Interfaces.Clients;
 using WebShop.Models;
 using WebShop.Services;
 using WebShop.Services.Interfaces;
@@ -70,6 +72,8 @@ namespace WebShop
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICartService, CookieCartService>();
             services.AddTransient<IOrderService, SqlOrderService>();
+
+            services.AddTransient<IValuesService, ValuesClient>();
 
 
 
