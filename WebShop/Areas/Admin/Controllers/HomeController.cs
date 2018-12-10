@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebShop.Domain;
-using WebShop.Infrastructure.Interfaces;
+using WebShop.Interfaces;
 using WebShop.Models;
 
 namespace WebShop.Areas.Admin.Controllers

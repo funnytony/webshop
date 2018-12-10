@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebShop.Domain.DTO.Order;
 using WebShop.Domain.Entities;
 using WebShop.Models.Cart;
 using WebShop.Models.Order;
 
-namespace WebShop.Infrastructure.Interfaces
+namespace WebShop.Interfaces
 {
     public interface IOrderService
     {
-        IEnumerable<Order> GetUserOrders(string userName);
+        IEnumerable<OrderDto> GetUserOrders(string userName);
 
-        Order GetOrderById(int id);
+        OrderDto GetOrderById(int id);
 
-        Order CreateOrder(OrderViewModel orderModel, CartViewModel transformCart, string userName);
+        OrderDto CreateOrder(CreateOrderModel orderModel, string userName);
 
     }
 }

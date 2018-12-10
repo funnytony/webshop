@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebShop.Domain;
+using WebShop.Domain.DTO.Product;
 using WebShop.Domain.Entities;
-using WebShop.Infrastructure.Interfaces;
+using WebShop.Interfaces;
 using WebShop.Models;
 
 namespace WebShop.Controllers
@@ -72,11 +73,11 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult Edite(int? id)
         {
-            Product product;
+            
             ProductViewModel model;
             if (id.HasValue)
             {
-                product = _productData.GetById(id.Value);
+                var product = _productData.GetById(id.Value);
                 if (ReferenceEquals(product, null)) return NotFound();
                 model = new ProductViewModel()
                 {
@@ -117,14 +118,12 @@ namespace WebShop.Controllers
                     dbItem.New = product.New;
                     dbItem.FullDescription = product.FullDescription;
                     dbItem.Description = product.Description;
-                    dbItem.Appearance = product.Appearance;
-                    dbItem.SectionId = product.SectionId;
-                    dbItem.EventId = product.EventId;
+                    dbItem.Appearance = product.Appearance;                    
                     _productData.Update(dbItem);
                 }
                 else
                 {
-                    Product dbItem = new Product()
+                    ProductDto dbItem = new ProductDto()
                     {
                         Name = product.Name,
                         Description = product.Description,

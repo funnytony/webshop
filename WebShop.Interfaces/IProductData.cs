@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebShop.Domain.DTO.Product;
 using WebShop.Domain.Entities;
 using WebShop.Models;
 
-namespace WebShop.Infrastructure.Interfaces
+namespace WebShop.Interfaces
 {
     public interface IProductData
     {
-        IEnumerable<Product> GetAll();
+        IEnumerable<ProductDto> GetAll();
 
-        Product GetById(int id);
+        ProductDto GetById(int id);
 
-        void AddNew(Product model);
+        void AddNew(ProductDto model);
 
         void Delete(int id);
 
-        void Update(Product model);
+        void Update(ProductDto model);
 
-        IEnumerable<Section> GetSections();
+        IEnumerable<SectionDto> GetSections();
 
-        IEnumerable<Event> GetEvents();
+        IEnumerable<EventDto> GetEvents();
 
-        IEnumerable<Product> GetProducts(ProductFilter filter);
+        IEnumerable<ProductDto> GetProducts(ProductFilter filter);
 
         int GetEventProductCount(int eventId);
     }

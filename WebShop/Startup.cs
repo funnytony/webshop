@@ -10,11 +10,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebShop.Clients;
+using WebShop.Clients.Services.Orders;
+using WebShop.Clients.Services.Product;
 using WebShop.DAL.Context;
 using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Implementations;
 using WebShop.Infrastructure.Interfaces;
 using WebShop.Infrastructure.Sql;
+using WebShop.Interfaces;
 using WebShop.Interfaces.Clients;
 using WebShop.Models;
 using WebShop.Services;
@@ -30,10 +33,7 @@ namespace WebShop
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {
-            
-
-            services.AddTransient<IProductData, SqlProductData>();
+        {            
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<WebShopContext>(options => options.UseSqlServer(connection));
 
@@ -69,9 +69,10 @@ namespace WebShop
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
+            services.AddTransient<IProductData, ProductsClient>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICartService, CookieCartService>();
-            services.AddTransient<IOrderService, SqlOrderService>();
+            services.AddTransient<IOrderService, OrdersClient>();
 
             services.AddTransient<IValuesService, ValuesClient>();
 

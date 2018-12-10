@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebShop.DAL.Context;
 using WebShop.Domain.Entities;
-using WebShop.Infrastructure.Interfaces;
+using WebShop.Interfaces;
 using WebShop.Models;
 
 namespace WebShop.Infrastructure.Implementations

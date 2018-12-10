@@ -14,10 +14,18 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebShop.DAL\WebShop.DAL.csproj" />
+    <ProjectReference Include="..\WebShop.Domain\WebShop.Domain.csproj" />
+    <ProjectReference Include="..\WebShop.Interfaces\WebShop.Interfaces.csproj" />
+    <ProjectReference Include="..\WebShop.Services\WebShop.Services.csproj" />
   </ItemGroup>
 
 </Project>

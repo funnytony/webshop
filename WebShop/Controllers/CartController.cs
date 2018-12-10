@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebShop.Domain.DTO.Order;
 using WebShop.Infrastructure.Interfaces;
+using WebShop.Interfaces;
 using WebShop.Models.Order;
 
 namespace WebShop.Controllers
@@ -34,7 +36,15 @@ namespace WebShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var orderResult = _orderService.CreateOrder(model, _cartService.TransformCart(), User.Identity.Name);
+                var orderResult = _orderService.CreateOrder(new CreateOrderModel()
+                {
+                    OrderViewModel = model,
+                    OrderItems = _cartService.TransformCart().Items.Select(o=> new OrderItemDto()
+                    {
+                        Price = o.Key.Price,
+                        Quantity = o.Value
+                    }).ToList()
+                }, User.Identity.Name);
                 _cartService.RemoveAll();
                 return RedirectToAction("OrderConfirmed", new { id = orderResult.Id });
             }
