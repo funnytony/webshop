@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WebShop.Clients;
 using WebShop.Clients.Services.Orders;
 using WebShop.Clients.Services.Product;
+using WebShop.Clients.Services.Users;
 using WebShop.DAL.Context;
 using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Implementations;
@@ -19,6 +20,7 @@ using WebShop.Infrastructure.Interfaces;
 using WebShop.Infrastructure.Sql;
 using WebShop.Interfaces;
 using WebShop.Interfaces.Clients;
+using WebShop.Interfaces.Services;
 using WebShop.Models;
 using WebShop.Services;
 using WebShop.Services.Interfaces;
@@ -34,12 +36,24 @@ namespace WebShop
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {            
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<WebShopContext>(options => options.UseSqlServer(connection));
+            //string connection = Configuration.GetConnectionString("DefaultConnection");
+            //services.AddDbContext<WebShopContext>(options => options.UseSqlServer(connection));
 
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<WebShopContext>()
+            services.AddIdentity<User, IdentityRole>()                
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<IUserStoreClient, UserStoreClient>();            
+
+            services.AddTransient<IUserRoleStore<User>, UserRoleClient>();
+            services.AddTransient<IUserClaimStore<User>, UserClaimClient>();
+            services.AddTransient<IUserPasswordStore<User>, UserPasswordClient>();
+            services.AddTransient<IUserTwoFactorStore<User>, UserTwoFactorClient>();
+            services.AddTransient<IUserEmailStore<User>, UserEmailClient>();
+            services.AddTransient<IUserPhoneNumberStore<User>, UserPhoneNumberClient>();
+            services.AddTransient<IUserLoginStore<User>, UserLoginClient>();
+            services.AddTransient<IUserLockoutStore<User>, UserLockoutClient>();
+
+            services.AddTransient<IRoleStore<IdentityRole>, RolesClient>();
 
             //конфигурируем Identity
             services.Configure<IdentityOptions>(options => {
