@@ -72,7 +72,20 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        public IActionResult ErrorStatus(string id)
+        {
+            if (id == "404")
+                return RedirectToAction("CustomNotFound", "ErrorController");
+            return Content($"Статуcный код ошибки: {id}");
+        }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
+
+
+
 
     }
 }

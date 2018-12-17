@@ -12,9 +12,9 @@ namespace WebShop.Clients.Services.Users
     public class UserEmailClient: BaseClient, IUserEmailStore<User>
     {
 
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserEmailClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserEmailClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/useremail";
@@ -103,6 +103,7 @@ namespace WebShop.Clients.Services.Users
             var result = await PostAsync(url, user);
             return await result.Content.ReadAsAsync<bool>();
         }
+        
 
         public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
         {

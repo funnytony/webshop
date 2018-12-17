@@ -1,24 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WebShop.Clients.Base;
 using WebShop.Domain.DTO.Users;
 using WebShop.Domain.Entities;
-using WebShop.Interfaces.Services;
 
 namespace WebShop.Clients.Services.Users
 {
     public class UserClaimClient: BaseClient, IUserClaimStore<User>
     {
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserClaimClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserClaimClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/userclaim";

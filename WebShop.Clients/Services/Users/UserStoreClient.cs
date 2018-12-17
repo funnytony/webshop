@@ -12,7 +12,7 @@ using WebShop.Interfaces.Services;
 
 namespace WebShop.Clients.Services.Users
 {
-    public class UserStoreClient: BaseClient, IUserStoreClient
+    public class UserStoreClient: BaseClient, IUserStore<User>
     {
         public UserStoreClient(IConfiguration configuration) : base(configuration) => ServiceAddress = "api/userstore";
 

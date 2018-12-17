@@ -15,9 +15,9 @@ namespace WebShop.Clients.Services.Users
 {
     public class UserLockoutClient: BaseClient, IUserLockoutStore<User>
     {
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserLockoutClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserLockoutClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/userlockout";

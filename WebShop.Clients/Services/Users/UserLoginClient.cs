@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 using WebShop.Clients.Base;
 using WebShop.Domain.DTO.Users;
 using WebShop.Domain.Entities;
-using WebShop.Interfaces.Services;
 
 namespace WebShop.Clients.Services.Users
 {
     public class UserLoginClient: BaseClient, IUserLoginStore<User>
     {
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserLoginClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserLoginClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/userlogin";

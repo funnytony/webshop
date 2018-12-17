@@ -16,7 +16,7 @@ namespace WebShop.ServicesHosting.Controllers
 {
     [Produces("application/json")]
     [Route("api/users")]
-    public class UsersApiController : Controller, IUsersClient
+    public class UsersApiController : Controller
     {
         private readonly UserStore<User> _userStore;
 

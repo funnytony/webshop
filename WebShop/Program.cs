@@ -1,25 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using WebShop.DAL.Context;
-using WebShop.Data;
-using WebShop.Domain;
-using WebShop.Domain.Entities;
-using WebShop.Models;
-
+using System.IO;
+using System.Reflection;
+using System.Xml;
 
 namespace WebShop
 {
@@ -27,6 +10,12 @@ namespace WebShop
     {
         public static void Main(string[] args)
         {
+            var log4NetConfig = new XmlDocument();
+            log4NetConfig.Load(File.OpenRead("log4net.config"));
+
+            var rep = log4net.LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
+
+            log4net.Config.XmlConfigurator.Configure(rep, log4NetConfig["log4net"]);
             var host = BuildWebHost(args);
             //using (var scope = host.Services.CreateScope())
             //{

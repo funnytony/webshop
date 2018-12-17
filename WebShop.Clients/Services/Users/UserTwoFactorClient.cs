@@ -11,9 +11,9 @@ namespace WebShop.Clients.Services.Users
 {
     public class UserTwoFactorClient: BaseClient, IUserTwoFactorStore<User>
     {
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserTwoFactorClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserTwoFactorClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/usertwofactor";

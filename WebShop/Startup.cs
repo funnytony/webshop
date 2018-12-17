@@ -1,29 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using WebShop.Logger;
 using WebShop.Clients;
 using WebShop.Clients.Services.Orders;
 using WebShop.Clients.Services.Product;
 using WebShop.Clients.Services.Users;
-using WebShop.DAL.Context;
 using WebShop.Domain.Entities;
 using WebShop.Infrastructure.Implementations;
 using WebShop.Infrastructure.Interfaces;
-using WebShop.Infrastructure.Sql;
 using WebShop.Interfaces;
 using WebShop.Interfaces.Clients;
-using WebShop.Interfaces.Services;
-using WebShop.Models;
 using WebShop.Services;
 using WebShop.Services.Interfaces;
+using WebShop.Services.Middleware;
 
 namespace WebShop
 {
@@ -42,7 +37,7 @@ namespace WebShop
             services.AddIdentity<User, IdentityRole>()                
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<IUserStoreClient, UserStoreClient>();            
+            services.AddTransient<IUserStore<User>, UserStoreClient>();            
 
             services.AddTransient<IUserRoleStore<User>, UserRoleClient>();
             services.AddTransient<IUserClaimStore<User>, UserClaimClient>();
@@ -98,20 +93,26 @@ namespace WebShop
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider svp, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddLog4Net();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Error");
             }
 
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseStatusCodePagesWithRedirects("~/error/errorstatus/{0}");
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseMvc(routes =>
             {

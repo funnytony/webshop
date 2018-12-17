@@ -15,9 +15,9 @@ namespace WebShop.Clients.Services.Users
 {
     public class UserRoleClient: BaseClient, IUserRoleStore<User>
     {
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserRoleClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserRoleClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/userrole";

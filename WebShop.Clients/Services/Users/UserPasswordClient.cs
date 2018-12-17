@@ -15,9 +15,9 @@ namespace WebShop.Clients.Services.Users
 {
     public class UserPasswordClient: BaseClient, IUserPasswordStore<User>
     {
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserPasswordClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserPasswordClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/userpassword";

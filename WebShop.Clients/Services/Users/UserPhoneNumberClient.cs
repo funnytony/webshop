@@ -11,9 +11,9 @@ namespace WebShop.Clients.Services.Users
 {
     public class UserPhoneNumberClient: BaseClient, IUserPhoneNumberStore<User>
     {
-        private readonly IUserStoreClient _userStoreClient;
+        private readonly IUserStore<User> _userStoreClient;
 
-        public UserPhoneNumberClient(IConfiguration configuration, IUserStoreClient userStoreClient) : base(configuration)
+        public UserPhoneNumberClient(IConfiguration configuration, IUserStore<User> userStoreClient) : base(configuration)
         {
             _userStoreClient = userStoreClient;
             ServiceAddress = "api/userphonenumber";
