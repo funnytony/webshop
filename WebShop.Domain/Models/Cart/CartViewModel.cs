@@ -16,5 +16,13 @@ namespace WebShop.Models.Cart
                 return Items?.Sum(x => x.Value) ?? 0;
             }
         }
+
+        public decimal PriceSum
+        {
+            get
+            {
+                return Items?.Sum(x => x.Value * x.Key.Price) ?? 0;
+            }
+        }
     }
 }
