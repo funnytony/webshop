@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShop.Domain.Entities.Base;
+using WebShop.Domain.Models.BreadCrumbs;
 
 namespace WebShop.Models
 {
@@ -27,5 +28,7 @@ namespace WebShop.Models
         public int? EventId { get; set; }
 
         public string Event { get; set; }
+
+        public BreadcrumbHelperViewModel BreadcrumbHelper { get; set; }
     }
 }

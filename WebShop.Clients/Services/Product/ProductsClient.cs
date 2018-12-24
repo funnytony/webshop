@@ -58,6 +58,13 @@ namespace WebShop.Clients.Services.Product
             return result;
         }
 
+        public EventDto GetEventById(int eventId)
+        {
+            var url = $"{ServiceAddress}/events/{eventId}";
+            var result = Get<EventDto>(url);
+            return result;
+        }
+
         public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
         {
             var url = $"{ServiceAddress}";
@@ -73,6 +80,13 @@ namespace WebShop.Clients.Services.Product
             var result = Get<List<SectionDto>>(url);
             return result;
 
+        }
+
+        public SectionDto GetSectionById(int sectionId)
+        {
+            var url = $"{ServiceAddress}/sections/{sectionId}";
+            var result = Get<SectionDto>(url);
+            return result;
         }
 
         public void Update(ProductDto model)

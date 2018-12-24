@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebShop.Domain;
 using WebShop.Domain.DTO.Product;
 using WebShop.Domain.Entities;
+using WebShop.Domain.Models.BreadCrumbs;
+using WebShop.Domain.Models.Product;
 using WebShop.Interfaces;
 using WebShop.Models;
 
@@ -26,24 +28,41 @@ namespace WebShop.Controllers
         public IActionResult Shop(int? sectionId, int? eventId)
         {
             var products = _productData.GetProducts(new ProductFilter() { SectionId = sectionId, EventId = eventId });
+            var sections = _productData.GetSections();
+            var events = _productData.GetEvents();
+            var title = "Сладости";
+            if(sectionId.HasValue)
+            {
+                title = sections.FirstOrDefault(s => s.Id == sectionId)?.Name;
+            }
+            else if(eventId.HasValue)
+            {
+                title = events.FirstOrDefault(e => e.Id == eventId)?.Name;
+            }
             var model = new CatalogViewModel
             {
                 EventId = eventId,
                 SectionId = sectionId,
-                Products = products.Select(p => new ProductViewModel()
+                Products = new ProductItemsViewModel()
                 {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    FullDescription = p.FullDescription,
-                    Appearance = p.Appearance,
-                    Price = p.Price,
-                    New = p.New,
-                    Sale = p.Sale,
-                    ImageUrl = p.ImageUrl,
-                    Order = p.Order,
-                    Event = p.Event != null ? p.Event.Name : string.Empty
-                }).OrderBy(p => p.Order).ToList()
+                    Title = title,
+                    Products = products.Select(p => new ProductViewModel()
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        FullDescription = p.FullDescription,
+                        Appearance = p.Appearance,
+                        Price = p.Price,
+                        New = p.New,
+                        Sale = p.Sale,
+                        ImageUrl = p.ImageUrl,
+                        Order = p.Order,
+                        Event = p.Event != null ? p.Event.Name : string.Empty
+                    }).OrderBy(p => p.Order).ToList()
+                },
+                BreadcrumbHelper = BreadCrumbLogic()
+                
             };
             return View(model);
         }
@@ -66,7 +85,8 @@ namespace WebShop.Controllers
                 Sale = porduct.Sale,
                 ImageUrl = porduct.ImageUrl,
                 Order = porduct.Order,
-                Event = porduct.Event != null? porduct.Event.Name : string.Empty
+                Event = porduct.Event != null? porduct.Event.Name : string.Empty,
+                BreadcrumbHelper = BreadCrumbLogic()
             });
         }
         [Authorize(Roles = WebShopConstants.Roles.Admin)]
@@ -147,5 +167,54 @@ namespace WebShop.Controllers
             _productData.Delete(id);
             return RedirectToAction(nameof(Shop));
         }
+
+        private BreadcrumbHelperViewModel BreadCrumbLogic()
+        {
+            var type = Request.Query.ContainsKey("sectionId") ?
+                BreadCrumbType.Section : Request.Query.ContainsKey("eventId") ?
+                    BreadCrumbType.Event : BreadCrumbType.None;
+
+            // Устанавливаем дефолтное значение источника
+            var fromType = BreadCrumbType.Section;
+
+            // Если это метод деталей товара
+            if ((string)RouteData.Values["action"] == "Details")
+            {
+                // Устанавливаем тип товар
+                type = BreadCrumbType.Item;
+            }
+
+            var id = 0;
+
+            switch (type)
+            {
+                case BreadCrumbType.None:
+                    break;
+                case BreadCrumbType.Section:
+                    id = int.Parse(Request.Query["sectionId"].ToString());
+                    break;
+                case BreadCrumbType.Event:
+                    id = int.Parse(Request.Query["eventId"].ToString());
+                    break;
+                case BreadCrumbType.Item:
+                    // Если есть ключ того, что пришли с бренда, ставим источник – бренд
+                    if (Request.Query.ContainsKey("fromEvent"))
+                    {
+                        fromType = BreadCrumbType.Event;
+                    }
+                    id = int.Parse(RouteData.Values["id"].ToString());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return new BreadcrumbHelperViewModel()
+            {
+                Id = id,
+                FromType = fromType,
+                Type = type
+            };
+        }
+
     }
 }

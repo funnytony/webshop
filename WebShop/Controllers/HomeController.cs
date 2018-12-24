@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebShop.Domain.Models.Product;
 using WebShop.Interfaces;
 using WebShop.Interfaces.Clients;
 using WebShop.Models;
@@ -28,6 +29,7 @@ namespace WebShop.Controllers
         {
             var value = _valuesService.Get();
             ViewBag.Service = value;
+            var title = "Сладости";
             var products = _productData.GetAll().Select(p => new ProductViewModel() {
                 Id = p.Id,
                 Name = p.Name,
@@ -40,7 +42,12 @@ namespace WebShop.Controllers
                 ImageUrl = p.ImageUrl,
                 Order = p.Order
             }).ToList();
-            return View(products);
+            var productItems = new ProductItemsViewModel()
+            {
+                Title = title,
+                Products = products
+            };
+            return View(productItems);
         }
 
         public IActionResult Cart()

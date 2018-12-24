@@ -1,8 +1,11 @@
-﻿@model IEnumerable<ProductViewModel>
+﻿@model ProductItemsViewModel
+@{
+    var isEvent = Context.Request.Query.ContainsKey("eventId");
+}
 <div class="features_items">
     <!--features_items-->
-    <h2 class="title text-center">Features Items</h2>
-    @foreach (var product in Model)
+    <h2 class="title text-center">Features Items @Model.Title</h2>
+    @foreach (var product in Model.Products)
     {
         <div class="col-sm-4">
             <div class="product-image-wrapper">
@@ -12,9 +15,16 @@
                         <h2>$@product.Price.ToString("C")</h2>
                         <p>@product.Name</p>
                         <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                        <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>                        
+                        @if (isEvent)
+                        {
+                            <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" asp-route-fromEvent="true" class="btn btn-default add-to-cart">Details</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
+                        }
                         <a shop-roles="@WebShopConstants.Roles.Admin" asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
-                        
+
 
                     </div>
                     <div class="product-overlay">
@@ -22,9 +32,16 @@
                             <h2>@product.Price.ToString("C")</h2>
                             <p>@product.Name</p>
                             <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                            <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
+                            @if (isEvent)
+                            {
+                                <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" asp-route-fromEvent="true" class="btn btn-default add-to-cart">Details</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
+                            }
                             <a shop-roles="@WebShopConstants.Roles.Admin" asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
-                            
+
                         </div>
                     </div>
                     @if (product.New || product.Sale)
@@ -42,9 +59,9 @@
         </div>
 
     }
-    
-     <a shop-roles="@WebShopConstants.Roles.Admin" asp-action="Edite" asp-controller="Catalog" class="btn btn-success">Добавить</a>
-    
+
+    <a shop-roles="@WebShopConstants.Roles.Admin" asp-action="Edite" asp-controller="Catalog" class="btn btn-success">Добавить</a>
+
     @section nav{
         @await RenderSectionAsync("nav", false)
     }

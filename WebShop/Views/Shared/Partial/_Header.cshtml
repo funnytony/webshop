@@ -65,7 +65,7 @@
                         <ul class="nav navbar-nav">
                             <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
                             <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-                            <li><a asp-controller="Cart" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                            <li><a asp-controller="Cart" asp-action="Checkout" is-active-rote><i class="fa fa-crosshairs"></i> Checkout</a></li>
                             <li>@await Component.InvokeAsync("Cart")</li>
                             @await Component.InvokeAsync("LoginLogout")
                         </ul>
@@ -90,26 +90,26 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+                            <li><a asp-controller="Home" asp-action="Index" is-active-rote>Home</a></li>
                             <li class="dropdown">
                                 <a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a asp-controller="Catalog" asp-action="Shop">Products</a></li>
-                                    <li><a asp-controller="Catalog" asp-action="Details" asp-route-id="1">Product Details</a></li>
-                                    <li><a asp-controller="Cart" asp-action="Checkout">Checkout</a></li>
-                                    <li><a asp-controller="Cart" asp-action="Details">Cart</a></li>
-                                    <li><a asp-controller="Home" asp-action="Login">Login</a></li>
+                                    <li><a asp-controller="Catalog" asp-action="Shop" is-active-rote ignore-action>Products</a></li>
+                                    <li><a asp-controller="Catalog" asp-action="Details" asp-route-id="1" is-active-rote>Product Details</a></li>
+                                    <li><a asp-controller="Cart" asp-action="Checkout" is-active-rote>Checkout</a></li>
+                                    <li><a asp-controller="Cart" asp-action="Details" is-active-rote>Cart</a></li>
+                                    <li><a asp-controller="Home" asp-action="Login" is-active-rote>Login</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a asp-controller="Blog" asp-action="Index">Blog List</a></li>
-                                    <li><a asp-controller="Blog" asp-action="SinglePost">Blog Single</a></li>
+                                    <li><a asp-controller="Blog" asp-action="Index" is-active-rote>Blog List</a></li>
+                                    <li><a asp-controller="Blog" asp-action="SinglePost" is-active-rote>Blog Single</a></li>
                                 </ul>
                             </li>
-                            <li><a asp-controller="Error" asp-action="CustomNotFound">404</a></li>
-                            <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
+                            <li><a asp-controller="Error" asp-action="CustomNotFound" is-active-rote>404</a></li>
+                            <li><a asp-controller="Contact" asp-action="Index" is-active-rote>Contact</a></li>
                         </ul>
                     </div>
                 </div>

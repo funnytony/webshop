@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebShop.Domain.Models.Product;
 using WebShop.Interfaces;
 using WebShop.Models;
 
@@ -15,14 +16,22 @@ namespace WebShop.ViewComponents
 
         public SectionsViewComponent(IProductData productData) => _productData = productData;
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync(string sectionId)
         {
-            var sections = GetSections();
-            return View(sections);
+            int.TryParse(sectionId, out var sectionIdInt);
+            var sections = GetSections(sectionIdInt, out var parentSectionId);
+            return View(new SectionCompleteViewModel()
+            {
+                Sections = sections,
+                CurrentSectionId = sectionIdInt,
+                CurrentParentSectionId = parentSectionId
+            });
         }
 
-        private List<SectionViewModel> GetSections()
+        private List<SectionViewModel> GetSections(int? sectionId, out int? parentSectionId)
         {
+            parentSectionId = null;
+
             var categories = _productData.GetSections();
             var parentCategories = categories.Where(p => !p.ParentId.HasValue).ToArray();
             var parentSections = new List<SectionViewModel>();
@@ -42,6 +51,9 @@ namespace WebShop.ViewComponents
                 var childCategories = categories.Where(c => c.ParentId.Equals(sectionViewModel.Id));
                 foreach (var childCategory in childCategories)
                 {
+                    if (childCategory.Id == sectionId)
+                        parentSectionId = sectionViewModel.Id;
+
                     sectionViewModel.ChildSections.Add(new SectionViewModel
                     {
                         Id = childCategory.Id,

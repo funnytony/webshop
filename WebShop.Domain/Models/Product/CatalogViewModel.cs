@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebShop.Domain.Models.BreadCrumbs;
+using WebShop.Domain.Models.Product;
 
 namespace WebShop.Models
 {
@@ -11,6 +13,8 @@ namespace WebShop.Models
 
         public int? SectionId { get; set; }
 
-        public IEnumerable<ProductViewModel> Products { get; set; }
+        public ProductItemsViewModel Products { get; set; }
+
+        public BreadcrumbHelperViewModel BreadcrumbHelper { get; set; }
     }
 }

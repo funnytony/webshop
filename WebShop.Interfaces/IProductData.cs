@@ -22,7 +22,11 @@ namespace WebShop.Interfaces
 
         IEnumerable<SectionDto> GetSections();
 
+        SectionDto GetSectionById(int id);
+
         IEnumerable<EventDto> GetEvents();
+
+        EventDto GetEventById(int id);
 
         IEnumerable<ProductDto> GetProducts(ProductFilter filter);
 

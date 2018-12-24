@@ -108,10 +108,10 @@ namespace WebShop.Tests
             var model = Assert.IsAssignableFrom<CatalogViewModel>(
                 viewResult.ViewData.Model);
 
-            Assert.Equal(2, model.Products.Count());
+            Assert.Equal(2, model.Products.Products.Count());
             Assert.Equal(5, model.EventId);
             Assert.Equal(1, model.SectionId);
-            Assert.Equal("TestImage2.jpg", model.Products.ToList()[1].ImageUrl);
+            Assert.Equal("TestImage2.jpg", model.Products.Products.ToList()[1].ImageUrl);
         }
 
     }

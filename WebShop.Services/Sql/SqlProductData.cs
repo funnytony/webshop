@@ -92,6 +92,19 @@ namespace WebShop.Infrastructure.Sql
             }).ToList();
         }
 
+        public EventDto GetEventById(int id)
+        {
+            var events = _context.Events.FirstOrDefault(e => e.Id == id);
+            if (events == null)
+                return new EventDto();
+            return new EventDto()
+            {
+                Id = events.Id,
+                Name = events.Name,
+                Order = events.Order
+            };
+        }
+
         public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
         {
             var products = _context.Products.Include("Event").Include(p=>p.Section).AsQueryable();
@@ -122,6 +135,20 @@ namespace WebShop.Infrastructure.Sql
                 Order = s.Order,
                 ParentId = s.ParentId
             }).ToList();
+        }
+
+        public SectionDto GetSectionById(int id)
+        {
+            var section = _context.Sections.FirstOrDefault(s => s.Id == id);
+            if (section == null)
+                return new SectionDto();
+            return new SectionDto()
+            {
+                Id = section.Id,
+                Name = section.Name,
+                Order = section.Order,
+                ParentId = section.ParentId
+            };
         }
 
         public void Update(ProductDto model)

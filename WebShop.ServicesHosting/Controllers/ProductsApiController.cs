@@ -55,6 +55,12 @@ namespace WebShop.ServicesHosting.Controllers
             return _productData.GetEvents();
         }
 
+        [HttpGet("events/{eventId}")]
+        public EventDto GetEventById(int eventId)
+        {
+            return _productData.GetEventById(eventId);
+        }
+
         [HttpPost]
         public IEnumerable<ProductDto> GetProducts([FromBody]ProductFilter filter)
         {
@@ -65,6 +71,12 @@ namespace WebShop.ServicesHosting.Controllers
         public IEnumerable<SectionDto> GetSections()
         {
             return _productData.GetSections();
+        }
+
+        [HttpGet("sections/{sectionId}")]
+        public SectionDto GetSectionById(int sectionId)
+        {
+            return _productData.GetSectionById(sectionId);
         }
 
         [HttpPut]

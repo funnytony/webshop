@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebShop.Domain.Models.Product;
 using WebShop.Interfaces;
 using WebShop.Models;
 
@@ -14,10 +15,11 @@ namespace WebShop.ViewComponents
 
         public EventsViewComponent(IProductData productData) => _productData = productData;
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync(string eventId)
         {
+            int.TryParse(eventId, out var eventIdInt);
             var events = GetEvents();
-            return View(events);
+            return View(new EventCompleteViewModel() {Events = events, CurrentEventId = eventIdInt });
         }
 
         private IEnumerable<EventViewModel> GetEvents()

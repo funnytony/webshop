@@ -14,6 +14,7 @@
     "inputFiles": [
       "wwwroot/js/price-range.js",
       "wwwroot/js/jquery.prettyPhoto.js",
+      "wwwroot/js/jquery.js",
       "wwwroot/js/main.js"
     ],
     "minify": {
