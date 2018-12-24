@@ -1,0 +1,68 @@
+﻿@model ProductItemsViewModel
+@{
+    var isEvent = Context.Request.Query.ContainsKey("eventId");
+}
+<div class="features_items">
+    <!--features_items-->
+    <h2 class="title text-center">Features Items @Model.Title</h2>
+    @foreach (var product in Model.Products)
+    {
+        <div class="col-sm-4">
+            <div class="product-image-wrapper">
+                <div class="single-products">
+                    <div class="productinfo text-center">
+                        <img src="@($"/images/products/small/{product.ImageUrl}")" alt=@product.Name />
+                        <h2>$@product.Price.ToString("C")</h2>
+                        <p>@product.Name</p>
+                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        @if (isEvent)
+                        {
+                            <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" asp-route-fromEvent="true" class="btn btn-default add-to-cart">Details</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
+                        }
+                        <a shop-roles="@WebShopConstants.Roles.Admin" asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
+
+
+                    </div>
+                    <div class="product-overlay">
+                        <div class="overlay-content">
+                            <h2>@product.Price.ToString("C")</h2>
+                            <p>@product.Name</p>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            @if (isEvent)
+                            {
+                                <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" asp-route-fromEvent="true" class="btn btn-default add-to-cart">Details</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Details</a>
+                            }
+                            <a shop-roles="@WebShopConstants.Roles.Admin" asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-default add-to-cart">Delete</a>
+
+                        </div>
+                    </div>
+                    @if (product.New || product.Sale)
+                    {
+                        <img src="@(product.New?"/images/home/new.png":"/images/home/sale.png")" class="new" alt="" />
+                    }
+                </div>
+                <div class="choose">
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <a shop-roles="@WebShopConstants.Roles.Admin" asp-action="Edite" asp-controller="Catalog" class="btn btn-success">Добавить</a>
+
+    @section nav{
+        @await RenderSectionAsync("nav", false)
+    }
+</div><!--features_items-->

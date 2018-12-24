@@ -1,0 +1,20 @@
+﻿@model CatalogViewModel
+@{
+    Layout = "_LayoutSidebar";
+    ViewBag.Title = "Shop";
+}
+
+@section top{
+    @await Html.PartialAsync("Partial/_Advertisement")
+
+}
+
+@section breadcrumbs{ 
+    @await Component.InvokeAsync("BreadCrumbs", new { Model.BreadcrumbHelper.Type, Model.BreadcrumbHelper.Id, Model.BreadcrumbHelper.FromType })
+}
+
+@await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
+
+@section nav{
+    @await Html.PartialAsync("Partial/_Pagination")
+}
