@@ -1,0 +1,15 @@
+﻿@model ProductViewModel
+@{
+    Layout = "_LayoutSidebar";
+    ViewBag.Title = "Product Details";
+}
+
+@section breadcrumbs{
+@await Component.InvokeAsync("BreadCrumbs", new { Model.BreadcrumbHelper.Type, Model.BreadcrumbHelper.Id, Model.BreadcrumbHelper.FromType })
+}
+
+@await Html.PartialAsync("Partial/_ProductDetails", Model)
+
+@await Html.PartialAsync("Partial/_CategoryTabDetails")
+
+@await Html.PartialAsync("Partial/_RecommendedItems")

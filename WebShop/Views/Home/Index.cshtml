@@ -1,0 +1,25 @@
+﻿@model ProductItemsViewModel
+@{
+    Layout = "_LayoutSidebar";
+    ViewBag.Title = "Index";
+}
+
+@section top{
+    @await Html.PartialAsync("Partial/_Slider")
+
+}
+
+
+@foreach(var item in ViewBag.Service)
+{
+    <p>@item</p>
+
+}
+
+
+@await Html.PartialAsync("Partial/_FeaturesItems", Model)
+
+@await Html.PartialAsync("Partial/_CategoryTab")
+
+@await Html.PartialAsync("Partial/_RecommendedItems")
+
