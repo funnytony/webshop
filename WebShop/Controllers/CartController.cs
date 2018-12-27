@@ -61,29 +61,40 @@ namespace WebShop.Controllers
         public IActionResult DecrementFromCart(int id)
         {
             _cartService.DecrementFromCart(id);
-            return RedirectToAction("Details");
+            //return RedirectToAction("Details");
+            return Json(new { id, message = "Количество товара уменьшено на 1" });
         }
 
         public IActionResult RemoveFromCart(int id)
         {
             _cartService.RemoveFromCart(id);
-            return RedirectToAction("Details");
+            //return RedirectToAction("Details");
+            return Json(new { id, message = "Товар удален из корзины" });
         }
 
         public IActionResult RemoveAll()
         {
             _cartService.RemoveAll();
-            return RedirectToAction("Details");
+            //return RedirectToAction("Details");
+            return Json(new { message = "Все товары удалены из корзины" });
+
         }
 
-        public IActionResult AddToCart(int id, string returnUrl)
+        public IActionResult AddToCart(int id)
         {
             _cartService.AddToCart(id);
 
-            if (Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
+            return Json(new { id, message = "Товар добавлен в корзину" });
 
-            return RedirectToAction("Index", "Home");
+            //if (Url.IsLocalUrl(returnUrl))
+            //    return Redirect(returnUrl);
+
+            //return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult GetCartView()
+        {
+            return ViewComponent("Cart");
         }
 
         public IActionResult OrderConfirmed(int id)

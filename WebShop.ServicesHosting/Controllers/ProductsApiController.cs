@@ -62,7 +62,7 @@ namespace WebShop.ServicesHosting.Controllers
         }
 
         [HttpPost]
-        public IEnumerable<ProductDto> GetProducts([FromBody]ProductFilter filter)
+        public PagedProductDto GetProducts([FromBody]ProductFilter filter)
         {
             return _productData.GetProducts(filter);
         }

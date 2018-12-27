@@ -26,9 +26,9 @@
                             {
                                 var sum = (decimal)sumObj;
                         <ul>
-                            <li>Cart Sub Total <span>@sum.ToString("C")</span></li>                            
+                            <li>Cart Sub Total <span class="totalOrderSum">@sum.ToString("C")</span></li>                            
                             <li>Shipping Cost <span>Free</span></li>
-                            <li>Total <span>@sum.ToString("C")</span></li>
+                            <li>Total <span class="totalOrderSum">@sum.ToString("C")</span></li>
                         </ul>
                         <a class="btn btn-default update" href="">Update</a>
                         if (sum > 0)

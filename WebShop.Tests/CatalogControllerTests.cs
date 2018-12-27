@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace WebShop.Tests
         {
             // Arrange
             var productMock = new Mock<IProductData>();
+            var configurationMock = new Mock<IConfiguration>();
             productMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(new ProductDto()
             {
                 Id = 1,
@@ -32,7 +34,7 @@ namespace WebShop.Tests
                     Name = "TestEvent"
                 }
             });
-            var controller = new CatalogController(productMock.Object);
+            var controller = new CatalogController(productMock.Object, configurationMock.Object);
 
             // Act
             var result = controller.Details(1);
@@ -52,8 +54,9 @@ namespace WebShop.Tests
         {
             // Arrange
             var productMock = new Mock<IProductData>();
+            var configurationMock = new Mock<IConfiguration>();
             productMock.Setup(p => p.GetById(It.IsAny<int>())).Returns((ProductDto)null);
-            var controller = new CatalogController(productMock.Object);
+            var controller = new CatalogController(productMock.Object, configurationMock.Object);
 
             // Act
             var result = controller.Details(1);
@@ -69,7 +72,8 @@ namespace WebShop.Tests
         {
             // Arrange
             var productMock = new Mock<IProductData>();
-            productMock.Setup(p => p.GetProducts(It.IsAny<ProductFilter>())).Returns(new List<ProductDto>()
+            var configurationMock = new Mock<IConfiguration>();
+            productMock.Setup(p => p.GetProducts(It.IsAny<ProductFilter>()).Products).Returns(new List<ProductDto>()
             {
                 new ProductDto()
                 {
@@ -98,7 +102,7 @@ namespace WebShop.Tests
                     }
                 }
             });
-            var controller = new CatalogController(productMock.Object);
+            var controller = new CatalogController(productMock.Object, configurationMock.Object);
 
             // Act
             var result = controller.Shop(1, 5);

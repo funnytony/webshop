@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShop.Domain.Models.BreadCrumbs;
+using WebShop.Domain.Models.Page;
 using WebShop.Domain.Models.Product;
 
 namespace WebShop.Models
@@ -16,5 +17,8 @@ namespace WebShop.Models
         public ProductItemsViewModel Products { get; set; }
 
         public BreadcrumbHelperViewModel BreadcrumbHelper { get; set; }
+
+        public PageViewModel PageViewModel { get; set; }
+
     }
 }

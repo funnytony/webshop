@@ -28,7 +28,7 @@ namespace WebShop.Interfaces
 
         EventDto GetEventById(int id);
 
-        IEnumerable<ProductDto> GetProducts(ProductFilter filter);
+        PagedProductDto GetProducts(ProductFilter filter);
 
         int GetEventProductCount(int eventId);
     }

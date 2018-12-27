@@ -14,7 +14,7 @@
                         <img src="@($"/images/products/small/{product.ImageUrl}")" alt=@product.Name />
                         <h2>$@product.Price.ToString("C")</h2>
                         <p>@product.Name</p>
-                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        <a href="#"  class="btn btn-default add-to-cart callAddToCart" data-id="@product.Id"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                         @if (isEvent)
                         {
                             <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" asp-route-fromEvent="true" class="btn btn-default add-to-cart">Details</a>
@@ -31,7 +31,7 @@
                         <div class="overlay-content">
                             <h2>@product.Price.ToString("C")</h2>
                             <p>@product.Name</p>
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            <a href="#" class="btn btn-default add-to-cart callAddToCart" data-id="@product.Id"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                             @if (isEvent)
                             {
                                 <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id" asp-route-fromEvent="true" class="btn btn-default add-to-cart">Details</a>

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using WebShop.Domain;
 using WebShop.Domain.DTO.Product;
 using WebShop.Domain.Entities;
 using WebShop.Domain.Models.BreadCrumbs;
+using WebShop.Domain.Models.Page;
 using WebShop.Domain.Models.Product;
 using WebShop.Interfaces;
 using WebShop.Models;
@@ -17,17 +19,28 @@ namespace WebShop.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductData _productData;
+        private readonly IConfiguration _configuration;
 
-        public CatalogController(IProductData productData) => _productData = productData;
+        public CatalogController(IProductData productData, IConfiguration configuration)
+        {
+            _productData = productData;
+            _configuration = configuration;
+        }
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Shop(int? sectionId, int? eventId)
+        public IActionResult Shop(int? sectionId, int? eventId, int page = 1)
         {
-            var products = _productData.GetProducts(new ProductFilter() { SectionId = sectionId, EventId = eventId });
+            var products = _productData.GetProducts(new ProductFilter()
+            {
+                SectionId = sectionId,
+                EventId = eventId,
+                Page = page,
+                PageSize = int.Parse(_configuration["PageSize"])
+            });
             var sections = _productData.GetSections();
             var events = _productData.GetEvents();
             var title = "Сладости";
@@ -46,7 +59,7 @@ namespace WebShop.Controllers
                 Products = new ProductItemsViewModel()
                 {
                     Title = title,
-                    Products = products.Select(p => new ProductViewModel()
+                    Products = products.Products.Select(p => new ProductViewModel()
                     {
                         Id = p.Id,
                         Name = p.Name,
@@ -61,8 +74,15 @@ namespace WebShop.Controllers
                         Event = p.Event != null ? p.Event.Name : string.Empty
                     }).OrderBy(p => p.Order).ToList()
                 },
-                BreadcrumbHelper = BreadCrumbLogic()
-                
+                BreadcrumbHelper = BreadCrumbLogic(),
+                PageViewModel = new PageViewModel
+                {
+                    PageSize = int.Parse(_configuration["PageSize"]),
+                    PageNumber = page,
+                    TotalItems = products.TotalCount
+                }
+
+
             };
             return View(model);
         }

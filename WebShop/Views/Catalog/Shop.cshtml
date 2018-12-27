@@ -9,12 +9,10 @@
 
 }
 
-@section breadcrumbs{ 
+@section breadcrumbs{
     @await Component.InvokeAsync("BreadCrumbs", new { Model.BreadcrumbHelper.Type, Model.BreadcrumbHelper.Id, Model.BreadcrumbHelper.FromType })
 }
 
 @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
 
-@section nav{
-    @await Html.PartialAsync("Partial/_Pagination")
-}
+<paging page-model="Model.PageViewModel" page-action="Shop" page-url-sectionId="@Model.SectionId" page-url-eventId="@Model.EventId"></paging>

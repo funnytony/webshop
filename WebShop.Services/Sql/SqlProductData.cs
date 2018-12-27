@@ -105,26 +105,57 @@ namespace WebShop.Infrastructure.Sql
             };
         }
 
-        public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
+        public PagedProductDto GetProducts(ProductFilter filter)
         {
             var products = _context.Products.Include("Event").Include(p=>p.Section).AsQueryable();
             if (filter.SectionId.HasValue) products = products.Where(p => p.SectionId.Equals(filter.SectionId));
             if (filter.EventId.HasValue) products = products.Where(p => p.EventId.HasValue && p.EventId.Equals(filter.EventId));
-            return products.Select(p => new ProductDto()
+            var model = new PagedProductDto
             {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                FullDescription = p.FullDescription,
-                Appearance = p.Appearance,
-                Price = p.Price,
-                Order = p.Order,
-                New = p.New,
-                Sale = p.Sale,
-                ImageUrl = p.ImageUrl,
-                Event = p.EventId.HasValue ? new EventDto() { Id = p.Event.Id, Name = p.Event.Name } : null,
-                Section = p.SectionId.HasValue ? new SectionDto() { Id = p.Section.Id, Name = p.Section.Name } : null
-            }).ToList();
+                TotalCount = products.Count()
+            };
+
+            if (filter.PageSize.HasValue)
+            {
+                model.Products = products.OrderBy(p => p.Order).Skip((filter.Page - 1) * filter.PageSize.Value).Take(filter.PageSize.Value).
+                    Select(p => new ProductDto()
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        FullDescription = p.FullDescription,
+                        Appearance = p.Appearance,
+                        Price = p.Price,
+                        Order = p.Order,
+                        New = p.New,
+                        Sale = p.Sale,
+                        ImageUrl = p.ImageUrl,
+                        Event = p.EventId.HasValue ? new EventDto() { Id = p.Event.Id, Name = p.Event.Name } : null,
+                        Section = p.SectionId.HasValue ? new SectionDto() { Id = p.Section.Id, Name = p.Section.Name } : null
+                    }).ToList();
+            }
+            else
+            {
+                model.Products = products.OrderBy(p => p.Order).
+                   Select(p => new ProductDto()
+                   {
+                       Id = p.Id,
+                       Name = p.Name,
+                       Description = p.Description,
+                       FullDescription = p.FullDescription,
+                       Appearance = p.Appearance,
+                       Price = p.Price,
+                       Order = p.Order,
+                       New = p.New,
+                       Sale = p.Sale,
+                       ImageUrl = p.ImageUrl,
+                       Event = p.EventId.HasValue ? new EventDto() { Id = p.Event.Id, Name = p.Event.Name } : null,
+                       Section = p.SectionId.HasValue ? new SectionDto() { Id = p.Section.Id, Name = p.Section.Name } : null
+                   }).ToList();
+            }
+
+
+                return model;
         }
 
         public IEnumerable<SectionDto> GetSections()
