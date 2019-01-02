@@ -1,0 +1,32 @@
+﻿@model CatalogViewModel
+@{
+    Layout = "_LayoutSidebar";
+    ViewBag.Title = "Shop";
+}
+
+@section top{
+    @await Html.PartialAsync("Partial/_Advertisement")
+
+}
+
+@section breadcrumbs{
+    @await Component.InvokeAsync("BreadCrumbs", new { Model.BreadcrumbHelper.Type, Model.BreadcrumbHelper.Id, Model.BreadcrumbHelper.FromType })
+}
+
+<div id="itemsContainer">
+    @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
+</div>
+
+
+<paging page-model="Model.PageViewModel" page-action="Shop" page-url-sectionId="@Model.SectionId" page-url-eventId="@Model.EventId"></paging>
+
+@section scripts{
+    <script src="~/js/shop/productItems.js"></script>
+    <script>
+        $(function() {
+            ProductItems.init({
+                getUrl: '@Url.Action("GetFilteredItems")'
+            });
+        });
+    </script>
+}

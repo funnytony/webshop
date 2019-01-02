@@ -1,0 +1,43 @@
+﻿@model OrderViewModel
+<section id="do_action">
+    <div class="container">
+        <div class="heading">
+            <h3>What would you like to do next?</h3>
+            <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+        </div>
+        <form method="post" asp-antiforgery="true" asp-action="CheckOut" class="row">
+            <div class="col-sm-6">
+                <input asp-for="Name" placeholder="@nameof(@Model.Name)" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+
+                <input asp-for="Phone" placeholder="@nameof(Model.Phone)" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+
+                <input asp-for="Address" placeholder="@nameof(Model.Address)" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            @{
+                ViewData.TryGetValue("sumCart", out var sumObj);
+            }
+
+            <div class="col-sm-6">
+                <div class="total_area">
+                    @if (sumObj != null)
+                            {
+                                var sum = (decimal)sumObj;
+                        <ul>
+                            <li>Cart Sub Total <span class="totalOrderSum">@sum.ToString("C")</span></li>                            
+                            <li>Shipping Cost <span>Free</span></li>
+                            <li>Total <span class="totalOrderSum">@sum.ToString("C")</span></li>
+                        </ul>
+                        <a class="btn btn-default update" href="">Update</a>
+                        if (sum > 0)
+                        {
+                            <input type="submit" value="Check Out" class="btn btn-default check_out" />
+                        }
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</section><!--/#do_action-->

@@ -1,0 +1,16 @@
+﻿
+@model EventCompleteViewModel
+
+<div class="brands_products">
+    <!--brands_products-->
+    <h2>Events</h2>
+    <div class="brands-name">
+        <ul class="nav nav-pills nav-stacked">
+            @foreach (var Event in Model.Events)
+            {
+                <li @(Event.Id == Model.CurrentEventId?"class=active" : null)><a asp-controller="Catalog" asp-action="Shop" asp-route-eventId="@Event.Id"> <span class="pull-right">(@Event.ProductsCount)</span>@Event.Name</a></li>
+
+            }            
+        </ul>
+    </div>
+</div><!--/brands_products-->
