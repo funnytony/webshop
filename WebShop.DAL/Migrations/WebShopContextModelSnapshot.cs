@@ -133,7 +133,8 @@ namespace WebShop.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("Order");
 
@@ -151,7 +152,8 @@ namespace WebShop.DAL.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<string>("Phone");
 
@@ -201,7 +203,10 @@ namespace WebShop.DAL.Migrations
 
                     b.Property<string>("ImageUrl");
 
-                    b.Property<string>("Name");
+                    b.Property<bool>("IsDelete");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<bool>("New");
 
@@ -227,7 +232,8 @@ namespace WebShop.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("Order");
 

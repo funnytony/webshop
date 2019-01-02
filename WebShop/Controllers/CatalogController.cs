@@ -34,13 +34,7 @@ namespace WebShop.Controllers
 
         public IActionResult Shop(int? sectionId, int? eventId, int page = 1)
         {
-            var products = _productData.GetProducts(new ProductFilter()
-            {
-                SectionId = sectionId,
-                EventId = eventId,
-                Page = page,
-                PageSize = int.Parse(_configuration["PageSize"])
-            });
+            var products = GetProducts(sectionId,eventId, page, out var totalCount);
             var sections = _productData.GetSections();
             var events = _productData.GetEvents();
             var title = "Сладости";
@@ -59,33 +53,61 @@ namespace WebShop.Controllers
                 Products = new ProductItemsViewModel()
                 {
                     Title = title,
-                    Products = products.Products.Select(p => new ProductViewModel()
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        FullDescription = p.FullDescription,
-                        Appearance = p.Appearance,
-                        Price = p.Price,
-                        New = p.New,
-                        Sale = p.Sale,
-                        ImageUrl = p.ImageUrl,
-                        Order = p.Order,
-                        Event = p.Event != null ? p.Event.Name : string.Empty
-                    }).OrderBy(p => p.Order).ToList()
+                    Products = products
                 },
                 BreadcrumbHelper = BreadCrumbLogic(),
                 PageViewModel = new PageViewModel
                 {
                     PageSize = int.Parse(_configuration["PageSize"]),
                     PageNumber = page,
-                    TotalItems = products.TotalCount
+                    TotalItems = totalCount
                 }
 
 
             };
             return View(model);
         }
+
+        public IActionResult GetFilteredItems(int? sectionId, int? eventId, int page = 1)
+        {
+            var sections = _productData.GetSections();
+            var events = _productData.GetEvents();
+            var title = "Сладости";
+            if (sectionId.HasValue)
+            {
+                title = sections.FirstOrDefault(s => s.Id == sectionId)?.Name;
+            }
+            else if (eventId.HasValue)
+            {
+                title = events.FirstOrDefault(e => e.Id == eventId)?.Name;
+            }
+            var productsModel = GetProducts(sectionId, eventId, page, out var totalCount);
+
+            return PartialView("Partial/_FeaturesItems", new ProductItemsViewModel() {Title = title, Products = productsModel });
+        }
+
+        private IEnumerable<ProductViewModel> GetProducts(int? sectionId, int? eventId, int page, out int totalCount)
+        {
+            var products = _productData.GetProducts(new ProductFilter
+            {
+                EventId = eventId,
+                SectionId = sectionId,
+                Page = page,
+                PageSize = int.Parse(_configuration["PageSize"])
+            });
+            totalCount = products.TotalCount;
+
+            return products.Products.Select(p => new ProductViewModel()
+            {
+                Id = p.Id,
+                ImageUrl = p.ImageUrl,
+                Name = p.Name,
+                Order = p.Order,
+                Price = p.Price,
+                Event = p.Event != null ? p.Event.Name : string.Empty
+            }).ToList();
+        }
+
 
         public IActionResult Details(int id)
         {
@@ -109,6 +131,7 @@ namespace WebShop.Controllers
                 BreadcrumbHelper = BreadCrumbLogic()
             });
         }
+        
         [Authorize(Roles = WebShopConstants.Roles.Admin)]
         [HttpGet]
         public IActionResult Edite(int? id)

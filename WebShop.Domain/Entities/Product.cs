@@ -35,6 +35,7 @@ namespace WebShop.Domain.Entities
         [ForeignKey("EventId")]
         public virtual Event Event { get; set; }
 
+        public bool IsDelete { get; set; }
 
     }
 }

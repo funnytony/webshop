@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using WebShop.Clients.Base;
+using WebShop.Domain.DTO;
 using WebShop.Domain.DTO.Product;
 using WebShop.Interfaces;
 using WebShop.Models;
@@ -16,18 +17,20 @@ namespace WebShop.Clients.Services.Product
 
         protected sealed override string ServiceAddress { get; set; }
 
-        public void AddNew(ProductDto model)
+        public SaveResult AddNew(ProductDto model)
         {
             var url = $"{ServiceAddress}/product";
             var response = Post(url, model);
-            response.EnsureSuccessStatusCode();
+            var result = response.Content.ReadAsAsync<SaveResult>().Result;
+            return result;
         }
 
-        public void Delete(int id)
+        public SaveResult Delete(int id)
         {
             var url = $"{ServiceAddress}/{id}";
             var response = Delete(url);
-            response.EnsureSuccessStatusCode();
+            var result = response.Content.ReadAsAsync<SaveResult>().Result;
+            return result;
         }
 
         public IEnumerable<ProductDto> GetAll()
@@ -89,11 +92,12 @@ namespace WebShop.Clients.Services.Product
             return result;
         }
 
-        public void Update(ProductDto model)
+        public SaveResult Update(ProductDto model)
         {
             var url = $"{ServiceAddress}";
             var response = Put(url, model);
-            response.EnsureSuccessStatusCode();
+            var result = response.Content.ReadAsAsync<SaveResult>().Result;
+            return result;
         }
     }
 }

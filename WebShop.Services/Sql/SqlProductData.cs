@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShop.DAL.Context;
+using WebShop.Domain.DTO;
 using WebShop.Domain.DTO.Product;
 using WebShop.Domain.Entities;
 using WebShop.Interfaces;
@@ -17,30 +18,101 @@ namespace WebShop.Infrastructure.Sql
 
         public SqlProductData(WebShopContext context) => _context = context;
 
-        public void AddNew(ProductDto model)
+        public SaveResult AddNew(ProductDto model)
         {
-            _context.Products.Add(new Product()
+            try
             {
-                Name = model.Name,
-                Description = model.Description,
-                FullDescription = model.FullDescription,
-                Appearance = model.Appearance,
-                ImageUrl = model.ImageUrl,
-                Price = model.Price,
-                Order = model.Order,
-                New = model.New,
-                Sale = model.Sale,
-                SectionId = model.Section!=null?model.Section.Id:0,
-                EventId = model.Event!=null?model.Event.Id:0                
-            });
-            _context.SaveChanges();
+                var product = new Product()
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    FullDescription = model.FullDescription,
+                    Appearance = model.Appearance,
+                    ImageUrl = model.ImageUrl,
+                    Price = model.Price,
+                    Order = model.Order,
+                    New = model.New,
+                    Sale = model.Sale,
+                    SectionId = model.Section != null ? model.Section.Id : 0,
+                    EventId = model.Event != null ? model.Event.Id : 0
+                };
+                _context.Products.Add(product);
+                _context.SaveChanges();
+                return new SaveResult()
+                {
+                    IsSuccess = true
+                };
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new SaveResult
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>()
+                    {
+                        ex.Message
+                    }
+                };
+            }
+            catch (DbUpdateException ex)
+            {
+                return new SaveResult
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>()
+                    {
+                        ex.Message
+                    }
+                };
+            }
+            catch (Exception e)
+            {
+                return new SaveResult
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>()
+                    {
+                        e.Message
+                    }
+                };
+            }
+
         }
 
-        public void Delete(int id)
+        public SaveResult Delete(int id)
         {
-            var product = _context.Products.Include(p=>p.Section).Include(p=>p.Event).FirstOrDefault(p=>p.Id == id);
-            if (product != null) _context.Products.Remove(product);
-            _context.SaveChanges();
+            var product = _context.Products.FirstOrDefault(p=>p.Id == id);
+            if (product == null)
+            {
+                return new SaveResult()
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "Entity not exist" }
+                };
+            }
+            try
+            {
+                //_context.Products.Remove(product);
+                product.IsDelete = true;
+                _context.SaveChanges();
+                return new SaveResult()
+                {
+                    IsSuccess = true
+                };
+            }
+            catch (Exception e)
+            {
+                return new SaveResult
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>()
+                    {
+                        e.Message
+                    }
+                };
+            }
+
         }
 
         public IEnumerable<ProductDto> GetAll()
@@ -182,26 +254,50 @@ namespace WebShop.Infrastructure.Sql
             };
         }
 
-        public void Update(ProductDto model)
+        public SaveResult Update(ProductDto model)
         {
-            _context.Products.Update(new Product() {
-                Id = model.Id,
-                Name = model.Name,
-                Description = model.Description,
-                FullDescription = model.FullDescription,
-                Appearance = model.Appearance,
-                Price = model.Price,
-                Order = model.Order,
-                New = model.New,
-                Sale = model.Sale,
-                ImageUrl = model.ImageUrl,
-                Event = model.Event!=null?new Event() { Id= model.Event.Id, Name = model.Event.Name, Order = model.Event.Order}:null,
-                Section = model.Section != null ? new Section() { Id = model.Section.Id, Name = model.Section.Name, Order = model.Section.Order } : null
-            });
-            _context.SaveChanges();
-        }
+            var product = _context.Products.FirstOrDefault(p => p.Id == model.Id);
+            if (product == null)
+            {
+                return new SaveResult()
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "Entity not exist" }
+                };
+            }
 
-        
+            product.Id = model.Id;
+            product.Name = model.Name;
+            product.Description = model.Description;
+            product.FullDescription = model.FullDescription;
+            product.Appearance = model.Appearance;
+            product.Price = model.Price;
+            product.Order = model.Order;
+            product.New = model.New;
+            product.Sale = model.Sale;
+            product.ImageUrl = model.ImageUrl;
+            product.EventId = model.Event.Id;
+            product.SectionId = model.Section.Id;
+            try
+            {
+                _context.SaveChanges();
+                return new SaveResult()
+                {
+                    IsSuccess = true
+                };
+            }
+            catch (Exception e)
+            {
+                return new SaveResult
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>()
+                    {
+                        e.Message
+                    }
+                };
+            }
+        }   
 
         
     }

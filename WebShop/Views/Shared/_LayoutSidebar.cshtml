@@ -7,7 +7,7 @@
     @await RenderSectionAsync("top", false)
 }
 
-@section breadcrumbs{ 
+@section breadcrumbs{
     @await RenderSectionAsync("breadcrumbs", false)
 }
 
@@ -19,11 +19,13 @@
             </div>
             <div class="col-sm-9 padding-right">
                 @RenderBody()
-                
+
                 @await RenderSectionAsync("nav", false)
-                
+
             </div>
         </div>
     </div>
 </section>
-
+@section scripts{ 
+    @await RenderSectionAsync("scripts", false)
+}

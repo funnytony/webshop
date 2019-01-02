@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebShop.Domain.DTO;
 using WebShop.Domain.DTO.Product;
 using WebShop.Interfaces;
 using WebShop.Models;
@@ -19,15 +20,15 @@ namespace WebShop.ServicesHosting.Controllers
         public ProductsApiController(IProductData productData)=>_productData = productData;
         
         [HttpPost("product")]
-        public void AddNew([FromBody]ProductDto model)
+        public SaveResult AddNew([FromBody]ProductDto model)
         {
-            _productData.AddNew(model);
+            return _productData.AddNew(model);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public SaveResult Delete(int id)
         {
-            _productData.Delete(id);
+            return _productData.Delete(id);
         }
 
         [HttpGet]
@@ -80,9 +81,9 @@ namespace WebShop.ServicesHosting.Controllers
         }
 
         [HttpPut]
-        public void Update([FromBody]ProductDto model)
+        public SaveResult Update([FromBody]ProductDto model)
         {
-            _productData.Update(model);
+            return _productData.Update(model);
         }
     }
 }
